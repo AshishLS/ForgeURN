@@ -14,7 +14,7 @@ namespace GetURN
     static class Program
     {
         /// <summary>
-        /// The main entry point for the application.
+        /// The main entry point for the application. 
         /// </summary>
         [STAThread]
         static void Main()
@@ -136,7 +136,7 @@ namespace GetURN
                 {
                     Console.WriteLine("***** Haven't finished translating your file to SVF - status: " + response.status
                         + ", progress: " + response.progress);
-                    ProgressLogger(int.Parse(response.progress));
+                    //ProgressLogger(int.Parse(response.progress));
                     Thread.Sleep(1000);
                 }
             }
