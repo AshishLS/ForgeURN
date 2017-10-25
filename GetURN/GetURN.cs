@@ -44,6 +44,9 @@ namespace GetURN
         public void showProgress(int percent)
         {
             pbrProcessProgress.Value = percent;
+            pbrProcessProgress.Update();
+            pbrProcessProgress.Refresh();
+            pbrProcessProgress.Invalidate();
         }
 
         private void btnDeleteFile_Click(object sender, EventArgs e)
@@ -60,7 +63,7 @@ namespace GetURN
 
         private void btnLaunchHTML_Click(object sender, EventArgs e)
         {
-            URNCreator.openViewer(newURN);
+            string html = URNCreator.openViewer(newURN);
         }
 
         private void setDefaultValues()

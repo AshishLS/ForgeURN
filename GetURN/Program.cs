@@ -65,7 +65,7 @@ namespace GetURN
         private static void createBucket()
         {
             Console.WriteLine("***** Sending createBucket request");
-            PostBucketsPayload payload = new PostBucketsPayload(BUCKET_KEY, null, PostBucketsPayload.PolicyKeyEnum.Temporary);
+            PostBucketsPayload payload = new PostBucketsPayload(BUCKET_KEY, null, PostBucketsPayload.PolicyKeyEnum.Transient);
             dynamic response = bucketsApi.CreateBucket(payload, "US");
             Console.WriteLine("***** Response for createBucket: " + response.ToString());
         }
@@ -136,7 +136,17 @@ namespace GetURN
                 {
                     Console.WriteLine("***** Haven't finished translating your file to SVF - status: " + response.status
                         + ", progress: " + response.progress);
-                    //ProgressLogger(int.Parse(response.progress));
+
+                    string progressPercentage = response.progress;
+                    progressPercentage = progressPercentage.Remove(progressPercentage.IndexOf('%'));
+
+                    int percentage = 0;
+                    bool success = int.TryParse(progressPercentage, out percentage);
+
+                    if (!success)
+                        percentage = 100;
+
+                    ProgressLogger(percentage);
                     Thread.Sleep(1000);
                 }
             }
@@ -160,12 +170,13 @@ namespace GetURN
         // Uses the twoLeggedCredentials object that you retrieved previously.
         // Opens the file statically from your hard drive with url parameters for the accessToken and for the urn of the file to show.
         // @param base64Urn
-        public static void openViewer(string base64Urn)
+        public static string openViewer(string base64Urn)
         {
             Console.WriteLine("***** Opening SVF file in viewer with urn:" + base64Urn);
             string st = _html.Replace("__URN__", base64Urn).Replace("__ACCESS_TOKEN__", twoLeggedCredentials.access_token);
             System.IO.File.WriteAllText("viewer.html", st);
             System.Diagnostics.Process.Start("chrome.exe", "viewer.html");
+            return st;
         }
 
         // Example of how to delete a file that was uploaded by the application.
@@ -234,6 +245,7 @@ namespace GetURN
             {
                 errMessage = "Error Initializing OAuth client : " + ex.Message;
             }
+            MessageBox.Show(errMessage);
             return errMessage;
         }
 

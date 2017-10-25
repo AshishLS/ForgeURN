@@ -208,7 +208,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(888, 296);
+            this.ClientSize = new System.Drawing.Size(889, 317);
             this.Controls.Add(this.pbxCopyToClipboard);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.tbxNewURN);
